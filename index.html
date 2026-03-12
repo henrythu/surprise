@@ -39,8 +39,7 @@
             flex-direction: column;
             align-items: center;
 
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(6px);
+
             padding: 30px;
             border-radius: 20px;
         }
@@ -227,7 +226,7 @@
     </div>
 
     <audio id="music" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3">
+        <source src="https://www.orangefreesounds.com/wp-content/uploads/2016/08/Happy-birthday-instrumental.mp3">
     </audio>
 
     <script>
@@ -252,6 +251,7 @@
             document.getElementById("photo").style.display = "block";
 
             document.getElementById("music").play();
+            document.getElementById("music").volume = 0.4;
 
             launchConfetti();
 
@@ -335,7 +335,7 @@
 
         function launchConfetti() {
 
-            var duration = 4 * 1000;
+            var duration = 1 * 300;
 
             var end = Date.now() + duration;
 
