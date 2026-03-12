@@ -1,39 +1,56 @@
 <!DOCTYPE html>
-
 <html lang="id">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday My ❤️</title>
+    <title>Happy Birthday My Love ❤️</title>
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
         body {
+            -webkit-tap-highlight-color: transparent;
             margin: 0;
             font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(180deg, #ff9a9e, #ff758c, #ff7eb3);
+
+            /* Pink overlay + image */
+            background:
+                linear-gradient(rgba(255, 154, 158, 0.85), rgba(255, 126, 179, 0.85)),
+                url("bubu-dudu.png");
+
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+
             color: white;
-            overflow-x: hidden;
-            text-align: center;
-            min-height: 100vh;
+            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
+            text-align: center;
+            min-height: 100vh;
         }
 
         .container {
             max-width: 600px;
-            z-index: 10;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(6px);
+            padding: 30px;
+            border-radius: 20px;
         }
 
         h1 {
-            font-size: 50px;
+            font-size: 42px;
         }
 
         .gift {
-            font-size: 100px;
+            font-size: 90px;
             cursor: pointer;
             animation: bounce 1.5s infinite;
         }
@@ -51,132 +68,72 @@
         }
 
         #photo {
-            width: 220px;
-            height: 220px;
+            width: 200px;
+            height: 200px;
             border-radius: 50%;
             object-fit: cover;
             border: 6px solid white;
             display: none;
             margin: auto;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
-                0 0 40px rgba(255, 105, 180, 0.7),
-                0 0 80px rgba(255, 20, 147, 0.6);
-            animation: photoGlow 3s ease-in-out infinite alternate;
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.8),
+                0 0 60px rgba(255, 20, 147, 0.7);
+            animation: glow 3s ease-in-out infinite alternate;
         }
 
-        @keyframes photoGlow {
+        @keyframes glow {
             from {
-                box-shadow: 0 0 20px rgba(255, 255, 255, 0.7),
-                    0 0 40px rgba(255, 105, 180, 0.6),
-                    0 0 60px rgba(255, 20, 147, 0.5);
+                box-shadow: 0 0 20px rgba(255, 255, 255, 0.6),
+                    0 0 40px rgba(255, 20, 147, 0.6);
             }
 
             to {
-                box-shadow: 0 0 30px rgba(255, 255, 255, 1),
-                    0 0 60px rgba(255, 105, 180, 0.9),
-                    0 0 120px rgba(255, 20, 147, 0.8);
+                box-shadow: 0 0 35px rgba(255, 255, 255, 1),
+                    0 0 80px rgba(255, 20, 147, 0.9);
             }
         }
 
         #message {
-            font-size: 28px;
-            font-weight: 500;
-            letter-spacing: 1px;
-            opacity: 1;
-            transition: opacity 1.5s;
-        }
-
-        .slideshow {
-            margin-top: 20px;
-            display: none;
-        }
-
-        .slideshow img {
-            width: 250px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-        }
-
-        .balloon {
-            position: absolute;
-            bottom: -150px;
-            width: 70px;
-            height: 90px;
-            border-radius: 50%;
-            animation: floatUp linear infinite;
-        }
-
-        .balloon:after {
-            content: "";
-            position: absolute;
-            width: 2px;
-            height: 80px;
-            background: white;
-            top: 90px;
-            left: 50%;
-        }
-
-        @keyframes floatUp {
-            0% {
-                transform: translateY(0)
-            }
-
-            100% {
-                transform: translateY(-120vh)
-            }
-        }
-
-        .heart {
-            position: absolute;
-            font-size: 22px;
-            animation: rise 6s linear infinite;
-        }
-
-        @keyframes rise {
-            0% {
-                transform: translateY(100vh)
-            }
-
-            100% {
-                transform: translateY(-10vh)
-            }
-        }
-
-        .cake {
-            font-size: 70px;
-            margin-top: 20px;
-            display: none;
-        }
-
-        .final {
             font-size: 26px;
             margin-top: 20px;
-            display: none;
-        }
-
-        .fadeIn {
             opacity: 1;
+            transition: opacity 1.5s;
         }
 
         .fadeOut {
             opacity: 0;
         }
 
-        .slideshow img {
+        .slideshow {
+            position: relative;
             width: 250px;
+            height: 250px;
+            margin: 20px auto;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
             border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            transition: opacity 2s ease;
+            animation: kenburns 10s ease-in-out infinite alternate;
+        }
+
+        .slide.active {
             opacity: 1;
-            transition: opacity 1s ease;
         }
 
-        #candle {
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-
-        #candle:hover {
-            transform: scale(1.2);
+        .final {
+            font-size: 24px;
+            margin-top: 20px;
+            display: none;
         }
 
         #stars {
@@ -188,47 +145,25 @@
             z-index: 0;
         }
 
-        .container {
-            position: relative;
-            z-index: 2;
+        @keyframes kenburns {
+            0% {
+                transform: scale(1);
+            }
+
+            100% {
+                transform: scale(1.15);
+            }
         }
 
-        .slideshow {
-            position: relative;
-            width: 250px;
-            height: 250px;
-            margin: auto;
-            margin-top: 20px;
-        }
-
-        .slide {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 20px;
-            opacity: 0;
-            transition: opacity 2s ease;
-        }
-
-        .slide.active {
-            opacity: 1;
-        }
-
-        /* MOBILE VIEW */
         @media (max-width: 600px) {
 
-            body {
-                padding: 20px;
-                height: 100vh;
+            h1 {
+                font-size: 28px;
             }
 
             .container {
-                max-width: 100%;
-            }
-
-            h1 {
-                font-size: 32px;
+                max-width: 90%;
+                padding: 20px;
             }
 
             .gift {
@@ -236,13 +171,13 @@
             }
 
             #photo {
-                width: 160px;
-                height: 160px;
+                width: 150px;
+                height: 150px;
             }
 
             #message {
-                font-size: 20px;
-                padding: 0 10px;
+                font-size: 18px;
+                margin-top: 15px;
             }
 
             .slideshow {
@@ -250,42 +185,29 @@
                 height: 200px;
             }
 
-            .slideshow img {
-                width: 200px;
-            }
-
             .slide {
-                width: 200px;
-                height: 200px;
-            }
-
-            .cake {
-                font-size: 50px;
+                width: 100%;
+                height: 100%;
             }
 
             .final {
                 font-size: 18px;
-                padding: 0 15px;
-            }
-
-            .balloon {
-                width: 50px;
-                height: 65px;
+                margin-top: 15px;
             }
 
         }
     </style>
-
 </head>
 
 <body>
+
     <canvas id="stars"></canvas>
 
     <div class="container">
 
-        <div class="gift" onclick="openGift()">Open🎁</div>
+        <div class="gift" onclick="openGift()">🎁</div>
 
-        <h1>Happy Birthday My ❤️</h1>
+        <h1>Happy Birthday My Love ❤️</h1>
 
         <img id="photo" src="profile.jpeg">
 
@@ -297,13 +219,9 @@
             <img class="slide" src="foto3.jpeg">
         </div>
 
-        <div class="cake">
-            🎂 <span id="candle" onclick="blowCandle()">🕯️</span>
-        </div>
-
         <div class="final">
             Aku harap kita bisa terus bersama ❤️<br>
-            Happy Birthday My Love 💖
+            Happy Birthday Sayang 💖
         </div>
 
     </div>
@@ -314,214 +232,112 @@
 
     <script>
 
+        /* MESSAGE */
+
         let messages = [
-
             "Selamat ulang tahun sayang ❤️",
-
-            "Terima kasih sudah hadir dalam hidup aku",
-
-            "Kamu membuat dunia aku jauh lebih indah",
-
-            "Aku berharap semua impian kamu tercapai",
-
-            "Dan semoga kita bisa terus bersama",
-
+            "Panjang umur sehat selalu",
+            "Semoga semua impianmu tercapai",
+            "Terima kasih sudah hadir di hidupku",
+            "Aku sangat bersyukur memilikimu",
             "I love you ❤️"
-
         ];
 
-        let photos = [
-            "foto1.jpeg",
-            "foto2.jpeg",
-            "foto3.jpeg",
-            "profile.jpeg"
-        ];
+        /* OPEN GIFT */
 
         function openGift() {
 
             document.querySelector(".gift").style.display = "none";
 
-            startSurprise();
-
-        }
-
-        function startSurprise() {
+            document.getElementById("photo").style.display = "block";
 
             document.getElementById("music").play();
-
-            document.getElementById("photo").style.display = "block";
 
             launchConfetti();
 
             showMessages();
 
-            createBalloons();
-
-            createHearts();
-
-            setTimeout(startSlideshow, messages.length * 3000);
-
         }
+
+        /* MESSAGE ANIMATION */
 
         function showMessages() {
 
             let index = 0;
-            let messageBox = document.getElementById("message");
+            let box = document.getElementById("message");
 
-            messageBox.innerHTML = messages[index];
-            messageBox.classList.add("fadeIn");
+            function next() {
 
-            index++;
+                box.innerHTML = messages[index];
 
-            function nextMessage() {
-
-                messageBox.classList.remove("fadeIn");
-                messageBox.classList.add("fadeOut");
+                box.style.opacity = 1;
 
                 setTimeout(() => {
 
-                    if (index < messages.length) {
+                    box.style.opacity = 0;
 
-                        messageBox.innerHTML = messages[index];
-
-                        messageBox.classList.remove("fadeOut");
-                        messageBox.classList.add("fadeIn");
+                    setTimeout(() => {
 
                         index++;
 
-                        setTimeout(nextMessage, 3000);
+                        if (index < messages.length) {
 
-                    }
+                            next();
 
-                }, 1500);
+                        } else {
+
+                            startSlideshow();
+
+                        }
+
+                    }, 1500);
+
+                }, 2000);
 
             }
 
-            setTimeout(nextMessage, 3000);
+            next();
 
         }
+
+        /* SLIDESHOW */
+
+        let slides;
+        let slideIndex = 0;
 
         function startSlideshow() {
 
             document.getElementById("slideshow").style.display = "block";
 
-            let slides = document.querySelectorAll(".slide");
-            let index = 0;
+            slides = document.querySelectorAll(".slide");
 
             setInterval(() => {
 
-                slides[index].classList.remove("active");
+                slides[slideIndex].classList.remove("active");
 
-                index++;
+                slideIndex++;
 
-                if (index >= slides.length) index = 0;
+                if (slideIndex >= slides.length) slideIndex = 0;
 
-                slides[index].classList.add("active");
+                slides[slideIndex].classList.add("active");
 
-            }, 3500);
-
-            document.querySelector(".cake").style.display = "block";
+            }, 4000);
 
             setTimeout(() => {
+
                 document.querySelector(".final").style.display = "block";
-            }, 6000);
 
-        }
-        let touchStartX = 0;
-        let touchEndX = 0;
-
-        const slideshow = document.getElementById("slideshow");
-
-        slideshow.addEventListener("touchstart", e => {
-            touchStartX = e.changedTouches[0].screenX;
-        });
-
-        slideshow.addEventListener("touchend", e => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        });
-
-        function handleSwipe() {
-
-            let slides = document.querySelectorAll(".slide");
-
-            let current = 0;
-
-            slides.forEach((s, i) => {
-                if (s.classList.contains("active")) current = i;
-            });
-
-            if (touchEndX < touchStartX) {
-
-                slides[current].classList.remove("active");
-                current++;
-
-                if (current >= slides.length) current = 0;
-
-                slides[current].classList.add("active");
-
-            }
-
-            if (touchEndX > touchStartX) {
-
-                slides[current].classList.remove("active");
-                current--;
-
-                if (current < 0) current = slides.length - 1;
-
-                slides[current].classList.add("active");
-
-            }
+            }, 7000);
 
         }
 
-        function createBalloons() {
-
-            for (let i = 0; i < 25; i++) {
-
-                let balloon = document.createElement("div");
-
-                balloon.className = "balloon";
-
-                balloon.style.left = Math.random() * 100 + "vw";
-
-                balloon.style.background = `hsl(${Math.random() * 360},70%,60%)`;
-
-                balloon.style.animationDuration = (6 + Math.random() * 6) + "s";
-
-                document.body.appendChild(balloon);
-
-            }
-
-        }
-
-        function createHearts() {
-
-            setInterval(() => {
-
-                let heart = document.createElement("div");
-
-                heart.className = "heart";
-
-                heart.innerHTML = "❤️";
-
-                heart.style.left = Math.random() * 100 + "vw";
-
-                heart.style.fontSize = (20 + Math.random() * 25) + "px";
-
-                heart.style.animationDuration = (4 + Math.random() * 3) + "s";
-
-                document.body.appendChild(heart);
-
-            }, 300);
-
-        }
+        /* CONFETTI */
 
         function launchConfetti() {
 
-            var duration = 8 * 1000;
+            var duration = 4 * 1000;
 
-            var animationEnd = Date.now() + duration;
+            var end = Date.now() + duration;
 
             (function frame() {
 
@@ -539,24 +355,30 @@
                     origin: { x: 1 }
                 });
 
-                if (Date.now() < animationEnd) {
+                if (Date.now() < end) {
                     requestAnimationFrame(frame);
                 }
 
-            }());
+            })();
 
         }
-        function blowCandle() {
 
-            document.getElementById("candle").innerHTML = "💨";
+        /* TAP CONFETTI */
+
+        document.addEventListener("click", function (e) {
 
             confetti({
-                particleCount: 150,
-                spread: 120,
-                origin: { y: 0.6 }
+                particleCount: 80,
+                spread: 90,
+                origin: {
+                    x: e.clientX / window.innerWidth,
+                    y: e.clientY / window.innerHeight
+                }
             });
 
-        }
+        });
+
+        /* STARS BACKGROUND */
 
         const canvas = document.getElementById("stars");
         const ctx = canvas.getContext("2d");
@@ -579,7 +401,7 @@
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            ctx.fillStyle = "#fff5f7";
+            ctx.fillStyle = "#fff";
 
             stars.forEach(star => {
 
@@ -597,22 +419,12 @@
             });
 
             requestAnimationFrame(animateStars);
+
         }
 
         animateStars();
 
-        document.addEventListener("click", function (e) {
-
-            confetti({
-                particleCount: 80,
-                spread: 90,
-                origin: {
-                    x: e.clientX / window.innerWidth,
-                    y: e.clientY / window.innerHeight
-                }
-            });
-
-        });
+        document.getElementById("slideshow").style.display = "flex";
 
     </script>
 
